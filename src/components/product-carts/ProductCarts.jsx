@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, Grid, Rating, Toolbar, Typography, CircularProgress, Autocomplete, TextField, Tooltip } from '@mui/material';
+import { Box, Button, Card, CardContent, Rating, Grid, Toolbar, Typography, CircularProgress, Autocomplete, TextField, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -53,7 +53,6 @@ const ProductCarts = () => {
                     (item, index, self) => index === self.findIndex((t) => t.value === item.value)
                 );
                 setCategoryArr(uniqueData);
-
                 setProducts(data.data);
                 setUpdateProductsArr(data.data);
                 setLoadingData(false);
@@ -117,17 +116,16 @@ const ProductCarts = () => {
                                         </Swiper>
                                         <CardContent>
                                             <Typography variant="body2" color="textSecondary">
-                                                {product.category}
+                                                {product?.category}
                                             </Typography>
-                                            <Typography variant="h6">{product?.title?.length > 20 ? `${product?.title.slice(0, 20)}..` : product?.title}</Typography>
+                                            <Typography variant="h6">{product?.title?.length > 20 ? `${product?.title?.slice(0, 20)}..` : product?.title}</Typography>
                                             <Box
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
                                                     gap: 1,
-                                                }}
-                                            >
+                                                }}>
                                                 <Box className="mt-2">
                                                     <Rating name="readOnly" value={product.rating?.rate || 0} readOnly />
                                                 </Box>
@@ -146,7 +144,6 @@ const ProductCarts = () => {
                                                             </Button>
                                                         </Link>
                                                     </Tooltip>
-
                                                     <Button
                                                         variant="contained"
                                                         color="success"

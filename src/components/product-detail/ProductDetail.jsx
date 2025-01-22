@@ -14,9 +14,9 @@ const ProductDetail = () => {
   const [filteredProduct, setFilteredProduct] = useState({});
   const { product_id } = useParams();
 
-  const disPatch = useDispatch ();
+  const disPatch = useDispatch();
   const isExist = cartItem?.find((item) => item.id == product_id);
- 
+
   const { cartItem } = useSelector((state) => state.cart);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (cartItem) {
-      const renderProduct = cartItem.filter((item) => item?.id == product_id)[0]; 
-      setFilteredProduct(renderProduct); 
+      const renderProduct = cartItem.filter((item) => item?.id == product_id)[0];
+      setFilteredProduct(renderProduct);
     }
   }, [cartItem, product_id]);
 
@@ -147,22 +147,22 @@ const ProductDetail = () => {
               }}
             >
               <Box className='d-flex'>
-              <Typography
-                variant="h5"
-                color="success.main"
-                sx={{ fontWeight: 'bold' }}
-              >
-                ${product?.price}
-              </Typography>
-              {isExist && <Typography className='ms-3'
-                variant="h6"
-                color="success.main"
-                sx={{ fontWeight: 'bold' }}
-              >
-                Qty: {filteredProduct?.quantity}
-              </Typography>}
+                <Typography
+                  variant="h5"
+                  color="success.main"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  ${product?.price}
+                </Typography>
+                {isExist && <Typography className='ms-3'
+                  variant="h6"
+                  color="success.main"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  Qty: {filteredProduct?.quantity}
+                </Typography>}
               </Box>
-              <Button onClick={()=>disPatch(addToCart)(product)}
+              <Button onClick={() => disPatch(addToCart)(product)}
                 variant="contained"
                 color="success"
                 size="large"
@@ -171,8 +171,8 @@ const ProductDetail = () => {
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   borderRadius: '20px',
-                  px: 3, 
-               }}
+                  px: 3,
+                }}
               >
                 Add
               </Button>
