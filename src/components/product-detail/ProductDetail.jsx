@@ -4,21 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import SkeletonProductDetail from './SkeletonProductDetail';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cart/cartSlice';
-import { useDispatch } from 'react-redux';
 
 const ProductDetail = () => {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const [loadingData, setLoadingData] = useState(true);
-  const [filteredProduct, setFilteredProduct] = useState({});
   const { product_id } = useParams();
 
-  const disPatch = useDispatch();
-  const isExist = cartItem?.find((item) => item.id == product_id);
-
+  const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
 
+  const isExist = cartItem?.some((item) => item.id == product_id);
   useEffect(() => {
     axios
       .get(`https://fakestoreapi.com/products/${product_id}`)
@@ -30,14 +27,6 @@ const ProductDetail = () => {
         setLoadingData(false);
       });
   }, [product_id]);
-
-
-  useEffect(() => {
-    if (cartItem) {
-      const renderProduct = cartItem.filter((item) => item?.id == product_id)[0];
-      setFilteredProduct(renderProduct);
-    }
-  }, [cartItem, product_id]);
 
   return (
     <>
@@ -79,102 +68,31 @@ const ProductDetail = () => {
               }}
             />
           </Box>
-
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography
-              variant="subtitle1"
-              color="primary"
-              sx={{
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-                letterSpacing: 1,
-              }}
-            >
+          <Box sx={{ flex: 2 }}>
+            <Typography variant="h5">{product.title}</Typography>
+            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               {product.category}
             </Typography>
-
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 'bold',
-                color: '#333',
-                lineHeight: 1.5,
-              }}
-            >
-              {product.title}
+            <Rating value={product.rating?.rate || 0} readOnly sx={{ mt: 1 }} />
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              ${product.price}
             </Typography>
-
-            <Typography
-              variant="body1"
-              sx={{
-                color: '#666',
-                lineHeight: 1.8,
-                fontSize: '16px',
-              }}
-            >
+            <Typography variant="body2" sx={{ mt: 2 }}>
               {product.description}
             </Typography>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Rating
-                name="readOnly"
-                value={product?.rating?.rate}
-                precision={0.5}
-                readOnly
-              />
-              <Typography
-                variant="body2"
-                sx={{ color: '#999', fontWeight: 500 }}
-              >
-                ({product?.rating?.count || 0} Reviews)
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mt: 3,
-              }}
-            >
-              <Box className='d-flex'>
-                <Typography
-                  variant="h5"
-                  color="success.main"
-                  sx={{ fontWeight: 'bold' }}
-                >
-                  ${product?.price}
-                </Typography>
-                {isExist && <Typography className='ms-3'
-                  variant="h6"
-                  color="success.main"
-                  sx={{ fontWeight: 'bold' }}
-                >
-                  Qty: {filteredProduct?.quantity}
-                </Typography>}
-              </Box>
-              <Button onClick={() => disPatch(addToCart)(product)}
+            <Box sx={{ mt: 3 }}>
+              <Button
                 variant="contained"
-                color="success"
-                size="large"
+                color="primary"
                 startIcon={<AddIcon />}
-                sx={{
-                  textTransform: 'uppercase',
-                  fontWeight: 'bold',
-                  borderRadius: '20px',
-                  px: 3,
+                onClick={() => {
+                  if (!isExist) {
+                    dispatch(addToCart(product));
+                  }
                 }}
-              >
-                Add
+                disabled={isExist} >
+                {isExist ? 'Already in Cart' : 'Add to Cart'}
               </Button>
             </Box>
           </Box>

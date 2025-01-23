@@ -25,7 +25,7 @@ function App() {
           path: "",
           element: <ProductCarts />,
         },
-        { path: "product-detail/:product_id", element: <ProductDetail /> },
+        { path: "product-detail/:product_id", element: <ProductDetail /> }
       ],
       errorElement: <PageNotFound />,
     },

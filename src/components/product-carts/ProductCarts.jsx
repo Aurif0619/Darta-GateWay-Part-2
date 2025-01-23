@@ -86,7 +86,13 @@ const ProductCarts = () => {
                         updateProductsArr.length > 0 ? (
                             updateProductsArr.map((product) => (
                                 <Grid item xs={12} sm={6} md={3} key={product.id}>
-                                    <Card>
+                                    <Card
+                                        sx={{
+                                            borderRadius: '12px',
+                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                                            overflow: 'hidden',
+                                        }}
+                                    >
                                         <Swiper
                                             spaceBetween={30}
                                             centeredSlides={true}
@@ -102,44 +108,92 @@ const ProductCarts = () => {
                                             className="mySwiper"
                                         >
                                             <SwiperSlide className="text-center pt-3">
-                                                <img width={"200px"} height={"300px"}
+                                                <img
+                                                    width={"200px"}
+                                                    height={"300px"}
                                                     src={product.image}
                                                     alt="Product Image"
+                                                    style={{
+                                                        borderRadius: '8px',
+                                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                                                    }}
                                                 />
                                             </SwiperSlide>
                                             <SwiperSlide className="text-center pt-3">
-                                                <img width={"200px"} height={"300px"}
+                                                <img
+                                                    width={"200px"}
+                                                    height={"300px"}
                                                     src={product.image}
                                                     alt="Product Image"
+                                                    style={{
+                                                        borderRadius: '8px',
+                                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                                                    }}
                                                 />
                                             </SwiperSlide>
                                         </Swiper>
-                                        <CardContent>
-                                            <Typography variant="body2" color="textSecondary">
+                                        <CardContent
+                                            sx={{
+                                                padding: '16px',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                color="textSecondary"
+                                                sx={{ fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase' }}
+                                            >
                                                 {product?.category}
                                             </Typography>
-                                            <Typography variant="h6">{product?.title?.length > 20 ? `${product?.title?.slice(0, 20)}..` : product?.title}</Typography>
+                                            <Typography
+                                                variant="h6"
+                                                sx={{ fontWeight: 'bold', mt: 1, fontSize: '1rem', lineHeight: '1.2' }}
+                                            >
+                                                {product?.title?.length > 20
+                                                    ? `${product?.title?.slice(0, 20)}..`
+                                                    : product?.title}
+                                            </Typography>
                                             <Box
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
                                                     gap: 1,
-                                                }}>
-                                                <Box className="mt-2">
-                                                    <Rating name="readOnly" value={product.rating?.rate || 0} readOnly />
-                                                </Box>
+                                                    mt: 1,
+                                                }}
+                                            >
+                                                <Rating name="readOnly" value={product.rating?.rate || 0} readOnly />
                                             </Box>
-                                            <Box className="d-flex justify-content-between align-items-center mt-3">
-                                                <Box>
-                                                    <Typography variant="body1" color="textPrimary">
-                                                        ${product.price}
-                                                    </Typography>
-                                                </Box>
-                                                <Box sx={{ padding: 1, display: 'flex', justifyContent: 'center' }}>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center',
+                                                    mt: 3,
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="body1"
+                                                    color="textPrimary"
+                                                    sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}
+                                                >
+                                                    ${product.price}
+                                                </Typography>
+                                                <Box sx={{ display: 'flex', gap: 1 }}>
                                                     <Tooltip title="View Detail" placement="top-start">
                                                         <Link to={`/product-detail/${product.id}`}>
-                                                            <Button>
+                                                            <Button
+                                                                variant="outlined"
+                                                                size="small"
+                                                                sx={{
+                                                                    borderRadius: '50%',
+                                                                    padding: '8px',
+                                                                    transition: 'background-color 0.3s',
+                                                                    '&:hover': {
+                                                                        backgroundColor: '#f0f0f0',
+                                                                    },
+                                                                }}
+                                                            >
                                                                 <VisibilityIcon />
                                                             </Button>
                                                         </Link>
@@ -149,6 +203,15 @@ const ProductCarts = () => {
                                                         color="success"
                                                         size="small"
                                                         startIcon={<AddIcon />}
+                                                        sx={{
+                                                            textTransform: 'none',
+                                                            borderRadius: '20px',
+                                                            padding: '8px 16px',
+                                                            transition: 'background-color 0.3s',
+                                                            '&:hover': {
+                                                                backgroundColor: '#388e3c',
+                                                            },
+                                                        }}
                                                         onClick={() => {
                                                             dispatch(addToCart(product));
                                                         }}
@@ -160,7 +223,8 @@ const ProductCarts = () => {
                                         </CardContent>
                                     </Card>
                                 </Grid>
-                            ))) : (
+                            ))
+                        ) : (
                             <Typography variant="h6">No Products Found</Typography>
                         )
                     )}
